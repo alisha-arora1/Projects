@@ -1,0 +1,533 @@
+Lab 11: Introduction to Layered Architecture
+
+
+Goals	At the end of this lab session, you will be able to:
+?	Develop an complete Java application in layered architecture
+Time	300 minutes
+
+
+11.1: Develop a Mobile Purchase system for a Mobile Sales shop. This application is a part of the system. Consider customer is doing full payment by cash, so payment details are not in the scope of our system.Assume mobile details are available in the table (TableName: mobiles). Each mobile detail have unique id and many quantity is available for each mobile. In this system,administratorshould be able to do the following process:
+a)	 Insert the customer and purchase details into database
+?	Before inserting into database, do check that the quantity of the mobile should be greater than 0, else display error message.
+b)	Update the mobile quantity in mobiles table, once mobile is purchased by a customer.
+c)	View details of all mobiles available in the shop. 
+d)	Delete a mobile details based on mobile id.
+e)	Search mobiles based on price range.
+f)	Write a test case for insert and search mobile service functionalities.
+
+When a customer purchased a mobile, the customer and purchase details have to be inserted to the database through system.  Perform the following validations while accepting customer details:
+•	Customer name: Valid value should contain maximum 20 alphabets. Out of 20 Characters, first character should be in UPPERCASE.
+•	MailId: should be valid mail id.
+•	Phone number: Valid value should contain 10 digits exactly.
+•	MobileId: Valid value should contain only 4 digits and it should be one of the mobileid available in mobiles table.
+•	PurchaseId: Generate automatically using sequence.
+•	Purchasedate: Should be the current system date.
+
+
+Note:
+1.	Use layered architecture while implementing application
+2.	Handle all exceptions as a user defined exception. 
+3.	Use Datasource for connecting to the database.
+4.	Read database details from properties file.
+5.	Use RegEx for performing validations.
+6.	Adhere to the coding standards and follow best practices.
+7.	Application should provide the menu options for the above requirements.
+
+Assume mobile details are already available in the database.
+
+Table Script to be used:
+
+CREATE TABLE mobiles (mobileid NUMBER PRIMARY KEY, name VARCHAR2 (20), price NUMBER(10,2),quantity VARCHAR2(20));
+
+INSERT INTO mobiles VALUES(1001,’Nokia Lumia 520’,8000,20);
+INSERT INTO mobiles VALUES(1002,’Samsung Galaxy IV’,38000,40);
+INSERT INTO mobiles VALUES(1003,’Sony xperia C’,15000,30);
+//TO DO – INSERT few more mobile details.
+
+CREATE TABLE purchasedetails(purchaseid NUMBER, cname vARCHAR2(20), mailid VARCHAR2(30),phoneno VARCHAR2(20), purchasedate DATE, mobileid references mobiles(mobileid));
+
+
+
+
+
+
+
+
+
+
+ 
+Lab 12: Log4J
+
+
+Goals	At the end of this lab session, you will be able to:
+?	Use Loggers
+?	Use categories
+?	Use appenders
+?	Load Log4j properties file
+Time	120 minutes
+
+12.1: Use Loggers.
+Solution:
+Step 1:Create a directory structure as follows: c:\demo\com\sample
+Step 2:Create the file c:\demo\com\sample\Log4jDemo.java.
+packagecom.sample;
+import org.apache.log4j.Logger;
+
+public class Log4jDemo {
+
+//create a logger for Log4jDemo class
+
+public static void main(String args[]) {
+
+
+
+          // create log messages for each priority level
+      }
+}
+
+Example 4: Sample code
+Step 3:Compile the Java code.
+Step 4:Create file c:\demo\log4j.properties.
+log4j.rootLogger=ERROR, stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=[%5p] %d{mm:ss} (%F:%M:%L)%n%m%n%n
+Example 5: Sample code
+ 
+Step 5:Run your application:
+The following log messages will be displayed:
+[ERROR] 08:34 (Log4jDemo.java:main:13)
+This is my error message.
+
+[FATAL] 08:34 (Log4jDemo.java:main:14)
+This is my fatal message.
+
+Step 6:Change the following line in the log4j.properties file:
+
+log4j.rootLogger=ALL, stdout
+or
+log4j.rootLogger=DEBUG, stdout
+
+Step 7:Run your application.
+The following log messages will be displayed:
+
+[DEBUG] 27:42 (Log4jDemo.java:main:10)
+This is my debug message.
+
+[ INFO] 27:42 (Log4jDemo.java:main:11)
+This is my info message.
+
+[ WARN] 27:42 (Log4jDemo.java:main:12)
+This is my warn message.
+
+[ERROR] 27:42 (Log4jDemo.java:main:13)
+This is my error message.
+
+[FATAL] 27:42 (Log4jDemo.java:main:14)
+This is my fatal message.
+Step 8:Change the following line in the log4j.properties file:
+log4j.rootLogger=OFF, stdout
+Step 9:Run your application:
+
+There will be no log messages displayed.
+Step 10: Change the following line in the log4j.properties file:
+
+log4j.rootLogger=FATAL, stdout
+Step 11:Run your application.
+
+The following log messages will be displayed:
+
+[FATAL] 27:42 (Log4jDemo.java:main:14)
+This is my fatal message.
+12.2: Working with logger priority levels.
+Solution:
+Step 1: Create one more directory bean under sample
+c:\demo\com\sample\bean.
+Step 2: Create the file c:\demo\com\sample\bean\Message.java.
+packagecom.sample.bean;
+import org.apache.log4j.Logger;
+
+public class Message {
+
+//create a logger for Message class
+
+private String msg;
+
+public void setMessage(String msg) {
+            this.msg = msg;
+
+            //log the messages for each priority level
+      }
+public String getMessage() {
+
+            //log messages for each priority level
+returnmsg;
+      }
+}
+
+Example 6: Sample code
+Step 3: Create the file c:\demo\com\sample\Log4jDemo3.java.
+packagecom.sample;
+importcom.sample.bean.Message;
+import org.apache.log4j.Logger;
+
+public class Log4jDemo3 {
+
+//create a logger for Log4jDemo3 class
+public static void main(String args[]) {
+
+//create an instance of Message class
+//call setMessage() method
+//print the log messages using getMessage() method
+// write log message statements for each priority level
+      }
+}
+
+Example 7: Sample code
+Step 4: Compile the Java code for Message.java and Log4Demo3.java.
+Step 5: Create file c:\demo\log4j.properties.
+
+
+log4j.rootLogger=DEBUG, stdout
+
+# Global Threshold - overridden by any Categories below.
+log4j.appender.stdout.Threshold=WARN
+
+# Categories
+log4j.category.com.sample=FATAL
+#log4j.category.com.sample.bean=INFO
+
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p [%c{1}] %M - %m%n
+
+
+Example 8: Sample code
+Step 6: Run your application.
+
+The following log messages will be displayed:
+FATAL [Message] setMessage - This is my fatal message.
+FATAL [Message] getMessage - This is my fatal message.
+Hello World
+FATAL [Log4jDemo3] main - This is my fatal message.
+
+The category com.sample in line "log4j.category.com.sample=FATAL" is the parent of category com.sample.bean. Only FATAL messages are logged.
+Step 7: Uncomment the following line in the log4j.properties file:
+
+log4j.category.com.sample.bean=INFO
+Step 8: Run your application Log4jDemo3:
+The following log messages will be displayed:
+WARN [Message] setMessage - This is my warn message.
+ERROR [Message] setMessage - This is my error message.
+FATAL [Message] setMessage - This is my fatal message.
+WARN [Message] getMessage - This is my warn message.
+ERROR [Message] getMessage - This is my error message.
+FATAL [Message] getMessage - This is my fatal message.
+Hello World
+FATAL [Log4jDemo3] main - This is my fatal message.
+INFO messages in category com.sample.bean are NOT logged. This is because of line "log4j.appender.stdout.Threshold=WARN"
+
+This appender will not log any messages with priority lower than WARN even if the category's priority is set lower (INFO).
+Step 9: Comment out the following lines in the log4j.properties file:
+
+#log4j.category.com.sample=FATAL
+#log4j.category.com.sample.bean=INFO
+Step 10: Run your application Log4jDemo3.
+
+The following log messages will be displayed:
+
+WARN [Message] setMessage - This is my warn message.
+ERROR [Message] setMessage - This is my error message.
+FATAL [Message] setMessage - This is my fatal message.
+WARN [Message] getMessage - This is my warn message.
+ERROR [Message] getMessage - This is my error message.
+FATAL [Message] getMessage - This is my fatal message.
+Hello World
+FATAL [Log4jDemo3] main - This is my fatal message.
+
+All log messages should be displayed due to line "log4j.rootLogger=DEBUG, stdout".
+However because of line "log4j.appender.stdout.Threshold=WARN" only messages with priority WARN or higher are logged.
+Step 11: Comment out the following lines in the log4j.properties file:
+
+#log4j.appender.stdout.Threshold=WARN
+#log4j.category.com.sample=FATAL
+#log4j.category.com.sample.bean=INFO
+Step 12: Run your application Log4jDemo3.
+
+The following log messages will be displayed:
+DEBUG [Message] setMessage - This is my debug message.
+ INFO [Message] setMessage - This is my info message.
+ WARN [Message] setMessage - This is my warn message.
+ERROR [Message] setMessage - This is my error message.
+FATAL [Message] setMessage - This is my fatal message.
+DEBUG [Message] getMessage - This is my debug message.
+ INFO [Message] getMessage - This is my info message.
+ WARN [Message] getMessage - This is my warn message.
+ERROR [Message] getMessage - This is my error message.
+FATAL [Message] getMessage - This is my fatal message.
+Hello World
+DEBUG [Log4jDemo3] main - This is my debug message.
+ INFO [Log4jDemo3] main - This is my info message.
+ WARN [Log4jDemo3] main - This is my warn message.
+ERROR [Log4jDemo3] main - This is my error message.
+FATAL [Log4jDemo3] main - This is my fatal message.
+12.3: Use Appenders.
+Solution:
+Step 1: Create a directory structure as follows: c:\demo\com\sample
+Step 2: Create the file c:\demo\com\sample\Log4jDemo2.java.
+packagecom.sample;
+import org.apache.log4j.Logger;
+
+public class Log4jDemo2 {
+
+//create a logger for Log4jDemo2 class
+
+public static void main(String args[]) {
+
+for(int i=1 ; i<50000; i++) {
+System.out.println("Counter = " + i);
+log.debug("This is my debug message. Counter = " + i);
+               // write log message statements for remaining priority levels 
+		  //in the same way
+            }
+      }
+}
+Example 9: Sample code
+Step 3: Compile the java code for Log4jDemo2.java
+Step 4: Create file c:\demo\log4j.properties and define several appenders:
+log4j.rootLogger=ERROR, A2
+
+########## Appender A1
+log4j.appender.A1=org.apache.log4j.ConsoleAppender
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
+log4j.appender.A1.layout.ConversionPattern=[%5p] %d{mm:ss} (%F:%M:%L)%n%m%n%n
+
+########## Appender A2
+log4j.appender.A2=org.apache.log4j.FileAppender
+log4j.appender.A2.File=c:/demo/app_a2.log
+
+# Append to the end of the file or overwrites the file at start.
+
+log4j.appender.A2.Append=false
+log4j.appender.A2.layout=org.apache.log4j.PatternLayout
+log4j.appender.A2.layout.ConversionPattern=[%5p] %d{mm:ss} (%F:%M:%L)%n%m%n%n
+
+########## Appender A3
+
+log4j.appender.A3=org.apache.log4j.RollingFileAppender
+log4j.appender.A3.File=c:/demo/app_a3.log
+# Set the maximum log file size (use KB, MB or GB)
+log4j.appender.A3.MaxFileSize=3000KB
+# Set the number of log files (0 means no backup files at all)
+log4j.appender.A3.MaxBackupIndex=5
+# Append to the end of the file or overwrites the file at start.
+log4j.appender.A3.Append=false
+log4j.appender.A3.layout=org.apache.log4j.PatternLayout
+log4j.appender.A3.layout.ConversionPattern=[%5p] %d{mm:ss} (%F:%M:%L)%n%m%n%n
+
+########## Appender A4
+
+log4j.appender.A4=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.A4.File=c:/demo/app_a4.log
+# Roll the log file at a certain time
+log4j.appender.A4.DatePattern='.'yyyy-MM-dd-HH-mm
+# Append to the end of the file or overwrites the file at start.
+log4j.appender.A4.Append=false
+log4j.appender.A4.layout=org.apache.log4j.PatternLayout
+log4j.appender.A4.layout.ConversionPattern=[%5p] %d{mm:ss} (%F:%M:%L)%n%m%n%n
+
+Example 10: Sample code
+Note: Use forward slashes in log4j.appender.A2.File=c:/demo/app_a2.log.
+Step 5: Demonstrate FileAppender, and run your application:
+By using appender A2 no log messages are displayed on the console, and all log messages are written to one large log file C:\demo\app_a2.log:
+
+
+Step 6: Demonstrate FileAppender, and run your application:
+Demonstrate RollingFileAppender, change the following line in c:\demo\log4j.properties:
+log4j.rootLogger=ERROR, A3
+
+Step 7: Run your application.
+By using appender A3, the log file app_a3.log will be rolled over when it reaches 3000KB. When the roll-over occurs, the app_a3.log is automatically moved to app_a3.log.1. When app_a3.log again reaches 3000KB, app_a3.log.1 is moved to app_a3.log.2 and app_a3.log is moved to app_a3.log.1.
+
+The maximum number of backup log files is set to MaxBackupIndex=5, which means app_a3.log.5 is the last file created.
+
+Step 8: Demonstrate DailyRollingFileAppender, change the following line in c:\demo\log4j.properties:
+
+log4j.rootLogger=ERROR, A4
+Step 9: Run your application.
+By using appender A4, the log file app_a4.log will be rolled over depending on the date format (= Java SimpleDateFormat ) used.
+
+<<TO DO>>
+12.3.1: Assign a layout to an appender in the log4j.properties configuration file and see the results.
+12.3.2:Define the appenders in log4j.properties and use it to get the desired result.
+
+12.4: Loading Log4J.properties file.
+Solution:
+Step 1: In a standalone application the log4j.properties must be put in the directory where you issued the java command. 
+Step 2: Run your application.
+public class HelloWorld { 
+static final Logger logger = Logger.getLogger(HelloWorld.class);  
+public static void main(String[] args) {         
+PropertyConfigurator.configure("log4j.properties");
+logger.debug("Hello World!");  
+logger.warn("Sample warn message");    
+logger.error("Sample error message");   
+} 
+}
+
+Example 11: Sample code
+
+If you rename log4j.properties file to something else (for example: test.properties), you must add the following line to your Java runtime command:
+
+-Dlog4j.configuration=test.properties
+
+<<TO DO>>
+
+Assignment 3: Rename the Log4j.properties to testfile.properties and execute the application.
+
+12.5 Refer the Mobile Purchase layered application from lab 12.1. Configure the logger for following functionalities:
+	12.5.1: Log details of customer and mobile when mobile is purchased successfully.
+	12.5.2: Log message when the mobile deleted. 
+	12.5.3: Log search criteria details upon each search request from user. 
+	12.5.3: Log all error messages/exceptions
+
+
+
+Lab 13: Multithreading
+
+
+Goals	At the end of this lab session, you will be able to:
+?	To process Multithreading program with Thread Priority.
+Time	60 minutes
+
+
+13.1: Write a program to do the following operations using Thread:
+•	Create an user defined Thread class called as “CopyDataThread .java” .
+•	This class will be designed to copy the content from one file “source.txt ” to another file “target.txt” and after every 10 characters copied,   “10 characters are copied” message  will be shown to user.(Keep delay of 5 seconds after every 10 characters  read.)
+•	Create another class “FileProgram.java” which will create above thread.Pass required File Stream classes to CopyDataThread constructor and implement the above functionality.
+13.2: Write a thread program to display timer where timer will get refresh after every 10seconds.( Use Runnable implementation )
+
+.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lab 14: Lambda Expressions and Stream API
+
+
+Goals	At the end of this lab session, you will be able to:
+?	Work with lambda expressions and stream API
+Time	180 minutes
+
+14.1: Write a lambda expression which accepts x and y numbers and return xy.
+
+14.2: Write a method that uses lambda expression to format a given string, where a space is inserted between each character of string.  For ex., if input is “CG”, then expected output is “C G”.
+
+14.3: Write a method that uses lambda expression to accept username and password and return true or false. (Hint: Use any custom values for username and password for authentication)
+
+14.4: Write a class with main method to demonstrate instance creation using method reference. (Hint: Create any simple class with attributes and getters and setters)
+
+14.5: Write a method to calculate factorial of a number. Test this method using method reference feature. 
+
+Case Study for Steam API:  
+
+Refer the classes given below to represent employees and their departments.
+ 
+Figure 20: Class Diagram used for Stream API 
+
+Also refer an EmployeeRepository class which is used to create and populate employee’s collection with sample data.
+
+   
+
+Create an EmployeeService class which queries on collections provided by EmployeeRepository class for following requirements. Create separate method for each requirement. (Note: Each requirement stated below must be attempted by using lambda expressions/stream API. It’s mandatory to solve at least 5 questions from following set. However, it is recommended to solve all questions to understand stream API thoroughly).
+
+14.6: Find out the sum of salary of all employees. 
+
+14.7: List out department names and count of employees in each department. 
+
+14.8:Find out the senior most employee of an organization. 
+
+14.9: List employee name and duration of their service in months and days. 
+
+14.10: Find out employees without department.
+
+14.11: Find out department without employees.
+
+14.12: Find departments with highest count of employees.
+
+14.13: List employee name, hire date and day of week on which employee has started. 
+
+14.14: Revise exercise 10.13 to list employee name, hire date and day of week for employee started on Friday. (Hint:  Accept the day name for e.g. FRIDAY and list all employees joined on Friday)
+
+14.15: List employee’s names and name of manager to whom he/she reports. Create a report in format “employee name reports to manager name”.
+
+14.16: List employee name, salary and salary increased by 15%. 
+
+14.17: Find employees who didn’t report to anyone (Hint: Employees without manager)  
+
+14.18: Create a method to accept first name and last name of manager to print name of all his/her subordinates.  
+
+14.19: Sort employees by their 
+
+•	Employee id
+•	Department id
+•	First name
+ 
+Appendices
+
+Appendix A: Naming Conventions
+Package names are written in all lower case to avoid conflict with the names of classes or interfaces.Companies use their reversed Internet domain name to begin their package names—for example, com.cg.mypackage for a package named mypackage created by a programmer at cg.com.
+Packages in the Java language itself begin with java. Or  javax.
+
+Classes and interfaces The first letter should be capitalized, and if several words are linked together to form the name, the first letter of the inner words should be uppercase (a format that's sometimes called "camelCase"). 
+For classes, the names should typically be nouns. For example:
+Dog
+Account
+PrintWriter
+For interfaces, the names should typically be adjectives like
+Runnable
+Serializable
+Methods The first letter should be lowercase, and then normal camelCase  rules should be used. In addition, the names should typically be verb-noun pairs. For example:
+getBalance
+doCalculation
+setCustomerName
+Variables Like methods, the camelCase format should be used, starting with a lowercase letter. Sun recommends short, meaningful names, which sounds good to us. Some examples:
+buttonWidth
+accountBalance
+myString
+Constants Java constants are created by marking variables static and final. They should be named using uppercase letters with underscore characters as separators:
+MIN_HEIGHT
+
+Appendix B: Table of Figures
+
+
+Figure 1: Java program	7
+Figure 2: System Properties	8
+Figure 3: Environment Variables	9
+Figure 4: Edit System Variable	9
+Figure 5: Edit System Variable	10
+Figure 6: Edit User Variable	10
+Figure 7: Select Wizard	11
+Figure 8: New Java Project	12
+Figure 9: Java Settings	13
+Figure 10: Select Resource	13
+Figure 11: Java Class	14
+Figure 12: Sample output of Person details	17
+Figure 13: Class Diagram of Person	17
+Figure 14: Association of person with account class	18
+
